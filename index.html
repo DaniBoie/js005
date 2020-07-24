@@ -23,7 +23,7 @@
       <input type="text" name="item" id="item">
     </p>
     <p>
-      <button id="addItem">Add Item</button>
+      <button id="addItem" data-itemAdd = "">Add Item</button>
     </p>
   </form>
 
@@ -35,7 +35,13 @@
 
     for (let i = 0; i < items.length; i++) {
       let itemElement = document.createElement('li')
-      itemElement.className = 'toDo'
+      itemElement.dataset.item = items[i].text
+      if (items[i].isDone){
+        itemElement.className = 'toDo green'
+      } else {
+        itemElement.className = 'toDo'
+      }
+      
       itemElement.innerHTML = `
       ${items[i].text}
       <button class = "delete">x</button
@@ -54,7 +60,8 @@
       localStorage.setItem('items', JSON.stringify(items))
       console.log(items)
       let itemElement = document.createElement('li')
-      itemElement.className = ('toDo')
+      itemElement.dataset.item = 
+      itemElement.className = 'toDo'
       itemElement.innerHTML = `
       ${document.getElementById('item').value}
       <button class = "delete">x</button>
@@ -68,6 +75,14 @@
 
       if (event.target.classList.contains('toDo')) {
        
+        for (let i =0; i < items.length; i++) {
+          if (items[i].text === event.target.dataset.item) {
+            items[i].isDone = !items[i].isDone
+          }
+        }
+
+        localStorage.setItem('items', JSON.stringify(items))
+
         if (event.target.classList.contains('green')) {
           event.target.classList.remove('green')
         } else {
