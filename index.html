@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>To-Do Set</title>
 
   <style>
     .green {
@@ -19,7 +19,7 @@
   
   <form> 
     <p>
-      <label for="item">item</label>
+      <label for="item">Item: </label>
       <input type="text" name="item" id="item">
     </p>
     <p>
@@ -31,8 +31,28 @@
 
   <script>
 
+    let items = JSON.parse(localStorage.getItem('items')) || []
+
+    for (let i = 0; i < items.length; i++) {
+      let itemElement = document.createElement('li')
+      itemElement.className = 'toDo'
+      itemElement.innerHTML = `
+      ${items[i].text}
+      <button class = "delete">x</button
+      `
+
+      document.getElementById('items').append(itemElement)
+    }
+
     document.getElementById('addItem').addEventListener('click', (event) => {
       event.preventDefault()
+      let itemObject = {
+        text: document.getElementById('item').value,
+        isDone: false
+      }
+      items.push(itemObject)
+      localStorage.setItem('items', JSON.stringify(items))
+      console.log(items)
       let itemElement = document.createElement('li')
       itemElement.className = ('toDo')
       itemElement.innerHTML = `
@@ -41,6 +61,7 @@
       `
       document.getElementById('items').append(itemElement)
       document.getElementById('item').value = ' '
+
     })
 
     document.addEventListener('click', (event) => {
