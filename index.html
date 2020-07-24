@@ -9,21 +9,19 @@
   <style>
     .green {
       color: green;
-
-
     }
   </style>
 </head>
 
 <body>
-  
-  <form> 
+
+  <form>
     <p>
       <label for="item">Item: </label>
       <input type="text" name="item" id="item">
     </p>
     <p>
-      <button id="addItem" data-itemAdd = "">Add Item</button>
+      <button id="addItem">Add Item</button>
     </p>
   </form>
 
@@ -31,36 +29,46 @@
 
   <script>
 
+    // Creates variable that either sets var items to an empty string or preset local data at page open
     let items = JSON.parse(localStorage.getItem('items')) || []
 
+    //Loop to append premade items into the page on page start
     for (let i = 0; i < items.length; i++) {
+      //creates a list item and stores it into itemElement
       let itemElement = document.createElement('li')
+      //creates a data attribute on itemElem (li) and sets it to the text in the object
       itemElement.dataset.item = items[i].text
-      if (items[i].isDone){
+
+      //if item it is processing has been previously checked add green and toDo to list class names, if not just put on toDo class name
+      if (items[i].isDone) {
         itemElement.className = 'toDo green'
       } else {
         itemElement.className = 'toDo'
       }
-      
+
+      //takes the (li) element of the loop and changes the inner HTML to be the text key value
       itemElement.innerHTML = `
       ${items[i].text}
       <button class = "delete">x</button
       `
-
+      //Takes the newly created (li) and appends it to the "items" ul
       document.getElementById('items').append(itemElement)
     }
 
+
     document.getElementById('addItem').addEventListener('click', (event) => {
       event.preventDefault()
+
       let itemObject = {
         text: document.getElementById('item').value,
         isDone: false
       }
+
       items.push(itemObject)
       localStorage.setItem('items', JSON.stringify(items))
-      console.log(items)
+
       let itemElement = document.createElement('li')
-      itemElement.dataset.item = 
+      itemElement.dataset.item =
       itemElement.className = 'toDo'
       itemElement.innerHTML = `
       ${document.getElementById('item').value}
@@ -71,11 +79,13 @@
 
     })
 
+
+    //Adds event listener to the entire site and searches if elements with specific tags
     document.addEventListener('click', (event) => {
 
       if (event.target.classList.contains('toDo')) {
-       
-        for (let i =0; i < items.length; i++) {
+
+        for (let i = 0; i < items.length; i++) {
           if (items[i].text === event.target.dataset.item) {
             items[i].isDone = !items[i].isDone
           }
@@ -88,21 +98,21 @@
         } else {
           event.target.classList.add('green')
         }
-      
+
       } else if (event.target.classList.contains('delete')) {
         event.target.parentNode.dataset.item
 
-        for (i = 0; i < items.length; i++){
+        for (i = 0; i < items.length; i++) {
           if (items[i].text === event.target.parentNode.dataset.item) {
             items.splice(i, 1)
           }
 
         }
 
-        localStorage.setItem('items', JSON.stringify(items)) 
+        localStorage.setItem('items', JSON.stringify(items))
         event.target.parentNode.remove()
       }
-    
+
     })
 
   </script>
