@@ -35,7 +35,6 @@
       event.preventDefault()
       let itemElement = document.createElement('li')
       itemElement.className = ('toDo')
-      // itemElement.textContent = document.getElementById('item').value
       itemElement.innerHTML = `
       ${document.getElementById('item').value}
       <button class = "delete">x</button>
@@ -47,18 +46,17 @@
     document.addEventListener('click', (event) => {
 
       if (event.target.classList.contains('toDo')) {
+       
         if (event.target.classList.contains('green')) {
           event.target.classList.remove('green')
         } else {
           event.target.classList.add('green')
         }
+      
       } else if (event.target.classList.contains('delete')) {
         event.target.parentNode.remove()
-
       }
-
-      
-
+    
     })
 
   </script>

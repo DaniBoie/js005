@@ -5,10 +5,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+  <style>
+    .watched {
+      color: blue;
+    }
+
+  </style>
 </head>
 
 <body>
   
+  <form>
+    <label for="movies">Movies to Watch!</label>
+    <input type="text" name="movies" id="movies">
+    <button id="submitBtn">Submit</button>
+  </form>
+
+  <ul id="listItems"></ul>
+
+  <script>
+
+    document.getElementById('submitBtn').addEventListener('click', (event) => {
+      event.preventDefault()
+      let items = document.createElement('li')
+      items.className = 'userMovie'
+      items.innerHTML =` ${document.getElementById('movies').value} <button class="delete">X</button>`
+      document.getElementById('listItems').append(items)
+      document.getElementById('movies').value = ' '
+    })
+
+    document.addEventListener('click', event => {
+
+      if(event.target.classList.contains('userMovie')){
+
+      if (event.target.classList.contains('watched')) {
+        event.target.classList.remove('watched')
+      } else {
+        event.target.classList.add('watched')
+      }
+      
+    } else if (event.target.classList.contains('delete')) {
+      event.target.parentNode.remove()
+    }
+    
+  })
+
+  </script>
 </body>
 
 </html>
